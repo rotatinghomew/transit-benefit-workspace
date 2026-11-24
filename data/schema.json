@@ -1,0 +1,277 @@
+{
+  "format_version": 1,
+  "synthetic": true,
+  "encoding": "UTF-8",
+  "tables": {
+    "riders": {
+      "description": "仅在票务用途内可链接的匿名乘客资质",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "category": {
+          "type": "string",
+          "description": "ordinary、student或assisted"
+        },
+        "valid_from": {
+          "type": "string",
+          "description": "资质生效日"
+        },
+        "valid_to": {
+          "type": "string",
+          "description": "资质失效日"
+        },
+        "tokens": {
+          "type": "array",
+          "description": "本用途允许链接的票卡键"
+        }
+      },
+      "references": {}
+    },
+    "fare_contracts": {
+      "description": "联营票价与资金约定；金额单位分",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "operator": {
+          "type": "string",
+          "description": "承运方"
+        },
+        "valid_from": {
+          "type": "string",
+          "description": "生效日"
+        },
+        "valid_to": {
+          "type": "string",
+          "description": "终止日"
+        },
+        "base_minor": {
+          "type": "number",
+          "description": "普通单程基本票价"
+        },
+        "per_zone_minor": {
+          "type": "number",
+          "description": "每跨一个票价区加价"
+        },
+        "transfer_minutes": {
+          "type": "number",
+          "description": "联程允许换乘分钟"
+        },
+        "transfer_discount_minor": {
+          "type": "number",
+          "description": "符合换乘的该程减价"
+        },
+        "daily_cap_minor": {
+          "type": "number",
+          "description": "该合同日封顶分"
+        },
+        "covered_lines": {
+          "type": "array",
+          "description": "封顶包含的线路"
+        },
+        "subsidized_lines": {
+          "type": "array",
+          "description": "财政资助认可线路"
+        },
+        "student_share": {
+          "type": "number",
+          "description": "学生对基础应收的支付比例"
+        },
+        "assisted_share": {
+          "type": "number",
+          "description": "资助类乘客对基础应收的支付比例"
+        },
+        "fund_limit_minor": {
+          "type": "number",
+          "description": "本期该方资助额度分"
+        },
+        "shared_interaction": {
+          "type": "string",
+          "description": "叠加交互减免的分担约定"
+        },
+        "business_day_start_hour": {
+          "type": "number",
+          "description": "营业日开始小时"
+        }
+      },
+      "references": {}
+    },
+    "journeys": {
+      "description": "乘车原件；缺失出站只提供合法目的区候选",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "rider_id": {
+          "type": "string",
+          "description": "乘客用途键"
+        },
+        "token": {
+          "type": "string",
+          "description": "乘车时票卡键"
+        },
+        "line": {
+          "type": "string",
+          "description": "线路"
+        },
+        "operator": {
+          "type": "string",
+          "description": "实际承运方"
+        },
+        "entered_at": {
+          "type": "string",
+          "description": "入站或上车时点"
+        },
+        "exit_at": {
+          "type": "nullable_string",
+          "description": "出站时点，空值为未知"
+        },
+        "known_at": {
+          "type": "string",
+          "description": "此版本获知时间"
+        },
+        "origin_zone": {
+          "type": "number",
+          "description": "入站票价区"
+        },
+        "destination_options": {
+          "type": "array",
+          "description": "资料能支持的合法目的区候选"
+        },
+        "chain_hint": {
+          "type": "string",
+          "description": "联程线索，仍须核实有效时限"
+        },
+        "receipt_key": {
+          "type": "string",
+          "description": "原扣款编号"
+        }
+      },
+      "references": {
+        "rider_id": "riders"
+      }
+    },
+    "charges": {
+      "description": "乘客实际扣款，不代表最终应收",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "journey_id": {
+          "type": "string",
+          "description": "原行程"
+        },
+        "at": {
+          "type": "string",
+          "description": "扣款时点"
+        },
+        "known_at": {
+          "type": "string",
+          "description": "扣款获知时间"
+        },
+        "charged_minor": {
+          "type": "number",
+          "description": "实际扣款分"
+        }
+      },
+      "references": {
+        "journey_id": "journeys"
+      }
+    },
+    "late_exits": {
+      "description": "后补的原始出站证明",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "journey_id": {
+          "type": "string",
+          "description": "被补全的行程"
+        },
+        "exit_at": {
+          "type": "string",
+          "description": "实际出站时点"
+        },
+        "known_at": {
+          "type": "string",
+          "description": "证明收到时间"
+        },
+        "destination_zone": {
+          "type": "number",
+          "description": "证明的目的区"
+        }
+      },
+      "references": {
+        "journey_id": "journeys"
+      }
+    },
+    "refund_receipts": {
+      "description": "已付个人退款原件",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "charge_id": {
+          "type": "string",
+          "description": "退款对应的原扣款"
+        },
+        "amount_minor": {
+          "type": "number",
+          "description": "已退款分"
+        },
+        "paid_at": {
+          "type": "string",
+          "description": "已经支付的时点"
+        },
+        "status": {
+          "type": "string",
+          "description": "paid或pending"
+        }
+      },
+      "references": {
+        "charge_id": "charges"
+      }
+    },
+    "settlements": {
+      "description": "已确认与在途联营清算",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "operator": {
+          "type": "string",
+          "description": "承运方"
+        },
+        "period_start": {
+          "type": "string",
+          "description": "期初"
+        },
+        "period_end": {
+          "type": "string",
+          "description": "期末"
+        },
+        "confirmed_minor": {
+          "type": "number",
+          "description": "原确认的资助额分"
+        },
+        "adjustment_allowed": {
+          "type": "boolean",
+          "description": "下期是否允许本合同差额调整"
+        },
+        "confirmed_at": {
+          "type": "string",
+          "description": "确认时点"
+        }
+      },
+      "references": {}
+    }
+  }
+}

@@ -1,0 +1,2 @@
+{"id":"settle-a","operator":"op0","period_start":"2026-01-01","period_end":"2026-01-31","confirmed_minor":10000,"adjustment_allowed":true,"confirmed_at":"2026-02-05T00:00:00+08:00"}
+{"id":"settle-b","operator":"op1","period_start":"2026-01-01","period_end":"2026-01-31","confirmed_minor":4900,"adjustment_allowed":false,"confirmed_at":"2026-02-05T00:00:00+08:00"}
